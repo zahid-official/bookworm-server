@@ -30,6 +30,13 @@ userSchema.virtual("admin", {
   justOne: true,
 });
 
+userSchema.virtual("reader", {
+  ref: "Reader",
+  localField: "_id",
+  foreignField: "userId",
+  justOne: true,
+});
+
 // Create mongoose model from user schema
 const User = model<IUser>("User", userSchema);
 export default User;
