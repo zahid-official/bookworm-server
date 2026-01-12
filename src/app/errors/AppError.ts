@@ -1,3 +1,4 @@
+// AppError class to standard error handling across the application
 class AppError extends Error {
   constructor(public statusCode: number, message: string, stack = "") {
     super(message);
