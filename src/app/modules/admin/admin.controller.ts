@@ -6,7 +6,11 @@ import AdminService from "./admin.service";
 
 // Create admin
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
-  const { password, ...body } = req?.body || {};
+  const payload = req?.body || {};
+  if (req.file?.path) {
+    payload.profilePhoto = req.file.path;
+  }
+  const { password, ...body } = payload;
   const result = await AdminService.createAdmin(body, password);
 
   // Send response

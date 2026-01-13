@@ -6,7 +6,11 @@ import ReaderService from "./reader.service";
 
 // Create reader
 const createReader = catchAsync(async (req: Request, res: Response) => {
-  const { password, ...body } = req?.body || {};
+  const payload = req?.body || {};
+  if (req.file?.path) {
+    payload.profilePhoto = req.file.path;
+  }
+  const { password, ...body } = payload;
   const result = await ReaderService.createReader(body, password);
 
   // Send response
