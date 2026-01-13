@@ -6,7 +6,6 @@ const genreSchema = new Schema<IGenre>(
   {
     name: { type: String, required: true, unique: true, trim: true },
     description: { type: String },
-    isDeleted: { type: Boolean, default: false },
   },
   {
     versionKey: false,

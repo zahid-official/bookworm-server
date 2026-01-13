@@ -12,7 +12,6 @@ const bookSchema = new Schema<IBook>(
     pages: { type: Number, required: true, min: 1 },
     averageRating: { type: Number, default: 0, min: 0, max: 5 },
     ratingsCount: { type: Number, default: 0, min: 0 },
-    isDeleted: { type: Boolean, default: false },
   },
   {
     versionKey: false,

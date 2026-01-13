@@ -7,10 +7,7 @@ import { IGenre } from "./genre.interface";
 
 // Get all genres
 const getAllGenres = async (query: Record<string, string>) => {
-  const queryBuilder = new QueryBuilder<IGenre>(
-    Genre.find({ isDeleted: { $ne: true } }),
-    query
-  );
+  const queryBuilder = new QueryBuilder<IGenre>(Genre.find(), query);
 
   if (query?.searchTerm) {
     queryBuilder.search(["name", "description"]);
@@ -29,7 +26,7 @@ const getAllGenres = async (query: Record<string, string>) => {
 
 // Get single genre
 const getSingleGenre = async (id: string) => {
-  const genre = await Genre.findById(id).where({ isDeleted: { $ne: true } });
+  const genre = await Genre.findById(id);
   if (!genre) {
     throw new AppError(httpStatus.NOT_FOUND, "Genre not found");
   }
@@ -52,9 +49,7 @@ const createGenre = async (payload: IGenre) => {
 
 // Update genre
 const updateGenre = async (id: string, payload: Partial<IGenre>) => {
-  const existingGenre = await Genre.findById(id).where({
-    isDeleted: { $ne: true },
-  });
+  const existingGenre = await Genre.findById(id);
   if (!existingGenre) {
     throw new AppError(httpStatus.NOT_FOUND, "Genre not found");
   }
@@ -82,14 +77,13 @@ const updateGenre = async (id: string, payload: Partial<IGenre>) => {
 
 // Delete genre
 const deleteGenre = async (id: string) => {
-  const genre = await Genre.findById(id).where({ isDeleted: { $ne: true } });
+  const genre = await Genre.findById(id);
   if (!genre) {
     throw new AppError(httpStatus.NOT_FOUND, "Genre not found");
   }
 
   const associatedBooks = await Book.countDocuments({
     genre: id,
-    isDeleted: { $ne: true },
   });
   if (associatedBooks > 0) {
     throw new AppError(
@@ -98,11 +92,7 @@ const deleteGenre = async (id: string) => {
     );
   }
 
-  return await Genre.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true }
-  );
+  return await Genre.findByIdAndDelete(id);
 };
 
 // Genre service object

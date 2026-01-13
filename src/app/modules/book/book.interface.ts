@@ -11,6 +11,5 @@ export interface IBook {
   pages: number;
   averageRating: number;
   ratingsCount: number;
-  isDeleted: boolean;
   createdAt?: Date;
 }
