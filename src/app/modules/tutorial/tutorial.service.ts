@@ -48,11 +48,49 @@ const createTutorial = async (payload: ITutorial) => {
   return tutorial;
 };
 
+// Update tutorial
+const updateTutorial = async (id: string, payload: Partial<ITutorial>) => {
+  const existingTutorial = await Tutorial.findById(id);
+  if (!existingTutorial) {
+    throw new AppError(httpStatus.NOT_FOUND, "Tutorial not found");
+  }
+
+  if (payload.youtubeUrl) {
+    const duplicateTutorial = await Tutorial.findOne({
+      youtubeUrl: payload.youtubeUrl,
+      _id: { $ne: id },
+    });
+    if (duplicateTutorial) {
+      throw new AppError(
+        httpStatus.CONFLICT,
+        "A tutorial already exists for this Youtube URL"
+      );
+    }
+  }
+
+  return await Tutorial.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
+};
+
+// Delete tutorial
+const deleteTutorial = async (id: string) => {
+  const tutorial = await Tutorial.findById(id);
+  if (!tutorial) {
+    throw new AppError(httpStatus.NOT_FOUND, "Tutorial not found");
+  }
+
+  return await Tutorial.findByIdAndDelete(id);
+};
+
 // Tutorial service object
 const TutorialService = {
   getAllTutorials,
   getSingleTutorial,
   createTutorial,
+  updateTutorial,
+  deleteTutorial,
 };
 
 export default TutorialService;

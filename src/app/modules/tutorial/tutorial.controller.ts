@@ -48,11 +48,41 @@ const createTutorial = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Update tutorial
+const updateTutorial = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id as string;
+  const result = await TutorialService.updateTutorial(id, req?.body);
+
+  // Send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Tutorial updated successfully",
+    data: result,
+  });
+});
+
+// Delete tutorial
+const deleteTutorial = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id as string;
+  const result = await TutorialService.deleteTutorial(id);
+
+  // Send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Tutorial deleted successfully",
+    data: result,
+  });
+});
+
 // Tutorial controller object
 const TutorialController = {
   getAllTutorials,
   getSingleTutorial,
   createTutorial,
+  updateTutorial,
+  deleteTutorial,
 };
 
 export default TutorialController;

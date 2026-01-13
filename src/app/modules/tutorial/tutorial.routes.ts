@@ -3,7 +3,10 @@ import validateSchema from "../../middlewares/validateSchema";
 import validateToken from "../../middlewares/validateToken";
 import { Role } from "../user/user.interface";
 import TutorialController from "./tutorial.controller";
-import { createTutorialZodSchema } from "./tutorial.validation";
+import {
+  createTutorialZodSchema,
+  updateTutorialZodSchema,
+} from "./tutorial.validation";
 
 // Initialize router
 const router = Router();
@@ -27,6 +30,17 @@ router.post(
   validateSchema(createTutorialZodSchema),
   TutorialController.createTutorial
 );
+
+// Patch routes
+router.patch(
+  "/:id",
+  validateToken(Role.ADMIN),
+  validateSchema(updateTutorialZodSchema),
+  TutorialController.updateTutorial
+);
+
+// Delete routes
+router.delete("/:id", validateToken(Role.ADMIN), TutorialController.deleteTutorial);
 
 // Export tutorial routes
 const TutorialRoutes = router;
