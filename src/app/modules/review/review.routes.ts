@@ -10,12 +10,12 @@ const router = Router();
 
 // Get routes
 router.get("/", validateToken(Role.ADMIN), ReviewController.getAllReviews);
-router.get("/:id", validateToken(Role.ADMIN), ReviewController.getSingleReview);
 router.get(
   "/book/:bookId",
   validateToken(...Object.values(Role)),
   ReviewController.getApprovedReviewsByBook
 );
+router.get("/:id", validateToken(Role.ADMIN), ReviewController.getSingleReview);
 
 // Post routes
 router.post(
@@ -24,6 +24,16 @@ router.post(
   validateSchema(createReviewZodSchema),
   ReviewController.createReview
 );
+
+// Patch routes
+router.patch(
+  "/approve/:id",
+  validateToken(Role.ADMIN),
+  ReviewController.approveReview
+);
+
+// Delete routes
+router.delete("/:id", validateToken(Role.ADMIN), ReviewController.deleteReview);
 
 // Export review routes
 const ReviewRoutes = router;

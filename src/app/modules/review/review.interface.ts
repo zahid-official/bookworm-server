@@ -12,6 +12,7 @@ export interface IReview {
   bookId: Types.ObjectId;
   userId: Types.ObjectId;
   userName: string;
+  profilePhoto?: string;
   rating: number;
   review: string;
   status: ReviewStatus;

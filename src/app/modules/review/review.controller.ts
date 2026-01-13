@@ -65,12 +65,42 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Update review status to approve
+const approveReview = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id as string;
+  const result = await ReviewService.approveReview(id);
+
+  // Send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Review approved successfully",
+    data: result,
+  });
+});
+
+// Delete review
+const deleteReview = catchAsync(async (req: Request, res: Response) => {
+  const id = req?.params?.id as string;
+  const result = await ReviewService.deleteReview(id);
+
+  // Send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Review deleted successfully",
+    data: result,
+  });
+});
+
 // Review controller object
 const ReviewController = {
   getAllReviews,
   getSingleReview,
   getApprovedReviewsByBook,
   createReview,
+  approveReview,
+  deleteReview,
 };
 
 export default ReviewController;
