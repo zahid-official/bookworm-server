@@ -18,6 +18,10 @@ const createAdmin = async (payload: IAdmin, password: string) => {
     );
   }
 
+  if (!payload.profilePhoto) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Profile photo is required");
+  }
+
   const session = await mongoose.startSession();
   try {
     return await session.withTransaction(async () => {

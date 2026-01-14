@@ -3,6 +3,11 @@ import AuthRoutes from "../modules/auth/auth.routes";
 import UserRoutes from "../modules/user/user.routes";
 import AdminRoutes from "../modules/admin/admin.routes";
 import ReaderRoutes from "../modules/reader/reader.routes";
+import GenreRoutes from "../modules/genre/genre.routes";
+import BookRoutes from "../modules/book/book.routes";
+import ReviewRoutes from "../modules/review/review.routes";
+import TutorialRoutes from "../modules/tutorial/tutorial.routes";
+import LibraryRoutes from "../modules/library/library.routes";
 
 // Initialize main router
 const router = Router();
@@ -24,6 +29,26 @@ const moduleRoutes = [
   {
     path: "/reader",
     route: ReaderRoutes,
+  },
+  {
+    path: "/genre",
+    route: GenreRoutes,
+  },
+  {
+    path: "/book",
+    route: BookRoutes,
+  },
+  {
+    path: "/review",
+    route: ReviewRoutes,
+  },
+  {
+    path: "/tutorial",
+    route: TutorialRoutes,
+  },
+  {
+    path: "/library",
+    route: LibraryRoutes,
   },
 ];
 

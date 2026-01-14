@@ -3,6 +3,7 @@ import { httpStatus } from "../../import";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import UserService from "./user.service";
+import { Role } from "./user.interface";
 
 // Get all users
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
@@ -67,6 +68,22 @@ const updateProfileInfo = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Upate user role
+const updateRole = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params.id as string;
+  const decodedToken = req?.decodedToken;
+  const payload = req.body.role as Role;
+  const result = await UserService.updateRole(userId, decodedToken, payload);
+
+  // Send response
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Profile info updated successfully",
+    data: result,
+  });
+});
+
 // Delete user by userId
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req?.params?.id as string;
@@ -88,6 +105,7 @@ const UserController = {
   getSingleUser,
   getProfileInfo,
   updateProfileInfo,
+  updateRole,
   deleteUser,
 };
 

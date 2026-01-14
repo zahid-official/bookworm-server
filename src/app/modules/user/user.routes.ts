@@ -4,7 +4,7 @@ import UserController from "./user.controller";
 import { Role } from "./user.interface";
 import multerUpload from "../../config/multer";
 import validateSchema from "../../middlewares/validateSchema";
-import { updateProfileInfoZodSchema } from "./user.validation";
+import { updateProfileInfoZodSchema, updateRoleZodSchema } from "./user.validation";
 
 // Initialize router
 const router = Router();
@@ -29,6 +29,12 @@ router.patch(
   validateToken(...Object.values(Role)),
   validateSchema(updateProfileInfoZodSchema),
   UserController.updateProfileInfo
+);
+router.patch(
+  "/updateRole/:id",
+  validateToken(Role.ADMIN),
+  validateSchema(updateRoleZodSchema),
+  UserController.updateRole
 );
 
 // Delete routes

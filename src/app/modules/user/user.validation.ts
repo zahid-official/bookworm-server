@@ -1,4 +1,5 @@
 import z from "zod";
+import { Role } from "./user.interface";
 
 // Zod schema for update logged user profile info
 export const updateProfileInfoZodSchema = z.object({
@@ -37,4 +38,10 @@ export const updateProfileInfoZodSchema = z.object({
     .string({ error: "Profile Photo must be string" })
     .trim()
     .optional(),
+});
+
+// Zod schema for update user role
+export const updateRoleZodSchema = z.object({
+  // Role
+  role: z.enum(Object.values(Role) as [string]),
 });
